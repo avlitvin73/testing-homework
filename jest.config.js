@@ -1,7 +1,9 @@
 module.exports = {
-  preset: 'ts-jest/presets/js-with-ts',
-  testEnvironment: "jsdom",
+  preset: 'ts-jest',
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
   moduleNameMapper: {
-    '\\.(css|less)$': '<rootDir>/styleMock.js',
-  }
+    '\\.(css|less)$': 'identity-obj-proxy'
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node']
 };

@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@bem-react/classname": "^1.5.12",
+        "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^12.1.5",
         "axios": "^0.23.0",
         "bootstrap": "^5.1.3",
