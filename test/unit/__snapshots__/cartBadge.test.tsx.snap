@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartBage item in cart store 1`] = `
+<div>
+  <span
+    class="CartBadge text-success mx-3"
+  >
+    Item in cart
+  </span>
+</div>
+`;
+
+exports[`CartBage items in cart store 1`] = `
+<div>
+  <span
+    class="CartBadge text-success mx-3"
+  >
+    Item in cart
+  </span>
+</div>
+`;
+
+exports[`CartBage items in cart store 2`] = `<div />`;
+
+exports[`CartBage not item in cart store 1`] = `<div />`;

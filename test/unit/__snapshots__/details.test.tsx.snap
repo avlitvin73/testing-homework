@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Product correct display product 1`] = `
+<div>
+  <div
+    class="Product"
+  >
+    <div
+      class="ProductDetails row"
+    >
+      <div
+        class="col-12 col-sm-5 col-lg-4"
+      >
+        <img
+          class="Image"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkMAYAADkANVKH3ScAAAAASUVORK5CYII="
+        />
+      </div>
+      <div
+        class="col-12 col-sm-7 col-lg-6"
+      >
+        <h1
+          class="ProductDetails-Name"
+        >
+          Fantastic Keyboard
+        </h1>
+        <p
+          class="ProductDetails-Description"
+        >
+          The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design
+        </p>
+        <p
+          class="ProductDetails-Price fs-3"
+        >
+          $
+          133
+        </p>
+        <p>
+          <button
+            class="ProductDetails-AddToCart btn btn-primary btn-lg"
+          >
+            Add to Cart
+          </button>
+        </p>
+        <dl>
+          <dt>
+            Color
+          </dt>
+          <dd
+            class="ProductDetails-Color text-capitalize"
+          >
+            olive
+          </dd>
+          <dt>
+            Material
+          </dt>
+          <dd
+            class="ProductDetails-Material text-capitalize"
+          >
+            Wooden
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Product item in cart 1`] = `
+<div>
+  <div
+    class="Product"
+  >
+    <div
+      class="ProductDetails row"
+    >
+      <div
+        class="col-12 col-sm-5 col-lg-4"
+      >
+        <img
+          class="Image"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkMAYAADkANVKH3ScAAAAASUVORK5CYII="
+        />
+      </div>
+      <div
+        class="col-12 col-sm-7 col-lg-6"
+      >
+        <h1
+          class="ProductDetails-Name"
+        >
+          Fantastic Keyboard
+        </h1>
+        <p
+          class="ProductDetails-Description"
+        >
+          The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design
+        </p>
+        <p
+          class="ProductDetails-Price fs-3"
+        >
+          $
+          133
+        </p>
+        <p>
+          <button
+            class="ProductDetails-AddToCart btn btn-primary btn-lg"
+          >
+            Add to Cart
+          </button>
+        </p>
+        <dl>
+          <dt>
+            Color
+          </dt>
+          <dd
+            class="ProductDetails-Color text-capitalize"
+          >
+            olive
+          </dd>
+          <dt>
+            Material
+          </dt>
+          <dd
+            class="ProductDetails-Material text-capitalize"
+          >
+            Wooden
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Product item in cart store 1`] = `
+<div>
+  <div
+    class="Product"
+  >
+    <div
+      class="ProductDetails row"
+    >
+      <div
+        class="col-12 col-sm-5 col-lg-4"
+      >
+        <img
+          class="Image"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkMAYAADkANVKH3ScAAAAASUVORK5CYII="
+        />
+      </div>
+      <div
+        class="col-12 col-sm-7 col-lg-6"
+      >
+        <h1
+          class="ProductDetails-Name"
+        >
+          Fantastic Keyboard
+        </h1>
+        <p
+          class="ProductDetails-Description"
+        >
+          The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design
+        </p>
+        <p
+          class="ProductDetails-Price fs-3"
+        >
+          $
+          133
+        </p>
+        <p>
+          <button
+            class="ProductDetails-AddToCart btn btn-primary btn-lg"
+          >
+            Add to Cart
+          </button>
+        </p>
+        <dl>
+          <dt>
+            Color
+          </dt>
+          <dd
+            class="ProductDetails-Color text-capitalize"
+          >
+            olive
+          </dd>
+          <dt>
+            Material
+          </dt>
+          <dd
+            class="ProductDetails-Material text-capitalize"
+          >
+            Wooden
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Product products length 1`] = `
+<div>
+  <div
+    class="Product"
+  >
+    <div
+      class="ProductDetails row"
+    >
+      <div
+        class="col-12 col-sm-5 col-lg-4"
+      >
+        <img
+          class="Image"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkMAYAADkANVKH3ScAAAAASUVORK5CYII="
+        />
+      </div>
+      <div
+        class="col-12 col-sm-7 col-lg-6"
+      >
+        <h1
+          class="ProductDetails-Name"
+        >
+          Fantastic Keyboard
+        </h1>
+        <p
+          class="ProductDetails-Description"
+        >
+          The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design
+        </p>
+        <p
+          class="ProductDetails-Price fs-3"
+        >
+          $
+          133
+        </p>
+        <p>
+          <button
+            class="ProductDetails-AddToCart btn btn-primary btn-lg"
+          >
+            Add to Cart
+          </button>
+        </p>
+        <dl>
+          <dt>
+            Color
+          </dt>
+          <dd
+            class="ProductDetails-Color text-capitalize"
+          >
+            olive
+          </dd>
+          <dt>
+            Material
+          </dt>
+          <dd
+            class="ProductDetails-Material text-capitalize"
+          >
+            Wooden
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+`;

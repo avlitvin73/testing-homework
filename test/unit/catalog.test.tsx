@@ -4,10 +4,8 @@ import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider, useSelector } from "react-redux";
 import { createStore } from "redux";
-import { Application } from "./../../src/client/Application";
 import { Catalog } from "./../../src/client/pages/Catalog";
 
-import userEvent from "@testing-library/user-event";
 import * as reduxHooks from "react-redux";
 
 const initialState = {
@@ -159,7 +157,7 @@ const initialStoreProducts = [
 const store = createStore(reducer);
 
 describe("Catalog", () => {
-  it("all products rendered", async () => {
+  it("products length", async () => {
     jest.spyOn(reduxHooks, "useSelector").mockReturnValue(initialStoreProducts);
 
     const app = (
@@ -174,5 +172,25 @@ describe("Catalog", () => {
     expect(container.getElementsByClassName("ProductItem").length).toEqual(
       initialStoreProducts.length
     );
+  });
+
+  it("all products rendered correctly", async () => {
+    jest.spyOn(reduxHooks, "useSelector").mockReturnValue(initialStoreProducts);
+
+    const app = (
+      <BrowserRouter>
+        <Provider store={store}>
+          <Catalog />
+        </Provider>
+      </BrowserRouter>
+    );
+    const { container, getByTestId } = render(app);
+
+    const products = container.getElementsByClassName("ProductItem")
+
+    for (const i in initialStoreProducts) {
+      expect(products[i].getElementsByClassName('ProductItem-Name').length).toEqual(1)
+      expect(products[i].getElementsByClassName('ProductItem-Price').length).toEqual(1)
+      expect(products[i].getElementsByClassName('ProductItem-DetailsLink').length).toEqual(1)    }
   });
 });
