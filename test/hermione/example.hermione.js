@@ -11,7 +11,7 @@ if (process.env.BUG_ID !== undefined) {
 }
 
 
-describe('1️⃣ вёрстка должна адаптироваться под ширину экрана', async () => {
+describe('1️⃣1️⃣ вёрстка должна адаптироваться под ширину экрана', async () => {
     const windowSizes = [2167, 1083, 875, 722, 575];
     windowSizes.forEach((w) => adaptivePage(w));
 
@@ -31,7 +31,7 @@ describe('1️⃣ вёрстка должна адаптироваться по�
     }
 })
 
-describe('2️⃣ в шапке отображаются ссылки на страницы магазина, а также ссылка на корзину', async () => {
+describe('1️⃣2️⃣ в шапке отображаются ссылки на страницы магазина, а также ссылка на корзину', async () => {
     const links = [
         'catalog',
         'delivery',
@@ -53,7 +53,7 @@ describe('2️⃣ в шапке отображаются ссылки на ст�
     }
 });
 
-describe('3️⃣ название магазина в шапке должно быть ссылкой на главную страницу', async () => {
+describe('1️⃣3️⃣ название магазина в шапке должно быть ссылкой на главную страницу', async () => {
     const links = [
         '',
         'catalog',
@@ -78,7 +78,7 @@ describe('3️⃣ название магазина в шапке должно �
 });
 
 
-describe('4️⃣ на ширине меньше 576px навигационное меню должно скрываться за "гамбургер"', async () => {
+describe('1️⃣4️⃣ на ширине меньше 576px навигационное меню должно скрываться за "гамбургер"', async () => {
     it('на ширине меньше 320px', async ({ browser }) => {
         await browser.setWindowSize(320, 540);
         await browser.url(main_url);
@@ -121,7 +121,7 @@ describe('4️⃣ на ширине меньше 576px навигационно�
     });
 })
 
-describe('5️⃣ при выборе элемента из меню "гамбургера", меню должно закрываться', async () => {
+describe('1️⃣5️⃣ при выборе элемента из меню "гамбургера", меню должно закрываться', async () => {
     it('при выборе элемента из меню "гамбургера", меню должно закрываться', async ({ browser }) => {
         await browser.setWindowSize(575, 540);
         await browser.url(main_url);
@@ -142,7 +142,7 @@ describe('5️⃣ при выборе элемента из меню "гамбу
     });
 });
 
-describe('6️⃣ страницы главная, условия доставки, контакты должны иметь статическое содержимое', async () => {
+describe('2️⃣1️⃣ страницы главная, условия доставки, контакты должны иметь статическое содержимое', async () => {
     const links = [
         '',
         'delivery',
@@ -167,7 +167,7 @@ describe('6️⃣ страницы главная, условия доставк
 
 
 
-describe('7️⃣ в каталоге должны отображаться товары, список которых приходит с сервера', async () => {
+describe('3️⃣1️⃣ в каталоге должны отображаться товары, список которых приходит с сервера', async () => {
     it(`Каждый продукт отображен`, async ({ browser }) => {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
@@ -189,7 +189,7 @@ describe('7️⃣ в каталоге должны отображаться то
 })
 
 
-describe('8️⃣ для каждого товара в каталоге отображается название, цена и ссылка на страницу с подробной информацией о товаре', async () => {
+describe('3️⃣2️⃣ для каждого товара в каталоге отображается название, цена и ссылка на страницу с подробной информацией о товаре', async () => {
     it(`для каждого товара в каталоге отображается название`, async ({ browser }) => {
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
@@ -249,7 +249,7 @@ describe('8️⃣ для каждого товара в каталоге ото�
     })
 })
 
-describe('9️⃣ на каждой странице с подробной информацией отображаются: название товара, его описание, цена, цвет, материал и кнопка * * "добавить в корзину"', async () => {
+describe('3️⃣3️⃣ на каждой странице с подробной информацией отображаются: название товара, его описание, цена, цвет, материал и кнопка * * "добавить в корзину"', async () => {
     const params = ['Name', 'Description', 'Price', 'Color', 'Material']
     for (const param of params) {
 
@@ -261,6 +261,7 @@ describe('9️⃣ на каждой странице с подробной ин�
             const products = await page.evaluate(() => {
                 return JSON.parse(document.querySelector("body").innerText);
             });
+            const uniqProducts = []
             for (const index in products) {
 
                 await page.goto(api_url + `/${index}`);
@@ -268,7 +269,10 @@ describe('9️⃣ на каждой странице с подробной ин�
                 const uniqProduct = await page.evaluate(() => {
                     return JSON.parse(document.querySelector("body").innerText);
                 });
-
+                uniqProducts.push(uniqProduct)
+            }
+            for (const index in uniqProducts) {
+                const uniqProduct = uniqProducts[index]
                 await page.goto(main_url + `/catalog/${index}`);
                 await page.waitForSelector(`.ProductDetails`)
 
@@ -296,19 +300,9 @@ describe('9️⃣ на каждой странице с подробной ин�
             assert.equal(await element.isDisplayed(), true, 'кнопка меню добавить отображается');
         }
     })
-    it(`на странице с подробной информацией корректная верстка`, async ({ browser }) => {
-        await browser.url(main_url + `/catalog/0`);
-        const page = await browser.$('.ProductDetails');
-        await page.waitForExist();
-        await browser.assertView(`product`, '.Application', {
-            screenshotDelay: 1000,
-            compositeImage: true,
-        });
-
-    })
 })
 
-describe('1️⃣0️⃣ если товар уже добавлен в корзину, в каталоге и на странице товара должно отображаться сообщение об этом', async () => {
+describe('3️⃣4️⃣ если товар уже добавлен в корзину, в каталоге и на странице товара должно отображаться сообщение об этом', async () => {
     it(`после клика на добавить появляется надпись Item in cart`, async ({ browser }) => {
         await browser.url(main_url + `/catalog/0`);
         const button = await browser.$(`.ProductDetails-AddToCart`)
@@ -338,12 +332,14 @@ describe('1️⃣0️⃣ если товар уже добавлен в корз
         const cartBadgeAgain = await browser.$(`.CartBadge`)
         assert.equal(await cartBadgeAgain.isDisplayed(), true, `появляется надпись Item in cart`);
 
-
+        await browser.url(main_url + `/cart`);
+        const buttonClear = await browser.$(`.Cart-Clear`)
+        await buttonClear.click()
     })
 })
 
 
-describe('1️⃣1️⃣ если товар уже добавлен в корзину, повторное нажатие кнопки "добавить в корзину" должно увеличивать его количество', async () => {
+describe('3️⃣5️⃣ если товар уже добавлен в корзину, повторное нажатие кнопки "добавить в корзину" должно увеличивать его количество', async () => {
     it(`увеличивать количество товара незначительно`, async ({ browser }) => {
         const index = 0
         await browser.url(main_url + `/catalog/${index}`);
@@ -364,13 +360,16 @@ describe('1️⃣1️⃣ если товар уже добавлен в корз
         const productCount = await page.evaluate(el => el.textContent, elementCount)
         assert.equal(productCount, '2', `количество добавленного продукта в корзине корректно`);
 
+        await browser.url(main_url + `/cart`);
+        const buttonClear = await browser.$(`.Cart-Clear`)
+        await buttonClear.click()
     })
 
 })
 
 
 
-describe('1️⃣2️⃣ содержимое корзины должно сохраняться между перезагрузками страницы', async () => {
+describe('3️⃣6️⃣ содержимое корзины должно сохраняться между перезагрузками страницы', async () => {
     it(`перезагрузка корзины`, async ({ browser }) => {
         const index = 0
         await browser.url(main_url + `/catalog/${index}`);
@@ -396,11 +395,14 @@ describe('1️⃣2️⃣ содержимое корзины должно сох
 
         assert.equal(cartTableContent, cartTableContentAgain, `содержимое корзины корректно`);
 
+        await browser.url(main_url + `/cart`);
+        const buttonClear = await browser.$(`.Cart-Clear`)
+        await buttonClear.click()
     })
 
 })
 
-describe('1️⃣3️⃣ в шапке рядом со ссылкой на корзину должно отображаться количество не повторяющихся товаров в ней', async () => {
+describe('4️⃣1️⃣ в шапке рядом со ссылкой на корзину должно отображаться количество не повторяющихся товаров в ней', async () => {
     it(`два разных товара`, async ({ browser }) => {
         const index = 0
         await browser.url(main_url + `/catalog/${index}`);
@@ -446,12 +448,148 @@ describe('1️⃣3️⃣ в шапке рядом со ссылкой на ко�
         const cartLink = await page.$(`.nav-link[href*="/hw/store/cart"]`);
         const cartLinkContent = await page.evaluate(el => el.textContent, cartLink)
         assert.equal(cartLinkContent, `Cart (2)`, `содержимое корзины корректно`);
+
+        await browser.url(main_url + `/cart`);
+        const buttonClear = await browser.$(`.Cart-Clear`)
+        await buttonClear.click()
     })
 
 })
 
 
-describe('1️⃣4️⃣ в корзине должна отображаться таблица с добавленными в нее товарами', async () => {
+describe('4️⃣2️⃣ в корзине должна отображаться таблица с добавленными в нее товарами', async () => {
     it(`два разных товара`, async ({ browser }) => {
+        const index = 0
+        const puppeteer = await browser.getPuppeteer();
+        const [page] = await puppeteer.pages();
+        const product = {}
+        const productAgain = {}
+
+        await page.goto(main_url + `/catalog/${index}`);
+        const button = await page.$(`.ProductDetails-AddToCart`)
+
+        const nameElement = await page.$(`.ProductDetails-Name`)
+        product['Name'] = await page.evaluate(el => el.textContent, nameElement)
+
+        const priceElement = await page.$(`.ProductDetails-Price`)
+        product['Price'] = await page.evaluate(el => el.textContent, priceElement)
+        await button.click()
+        await button.click()
+
+        await browser.url(main_url + `/catalog/${index + 1}`);
+        const buttonAgain = await browser.$(`.ProductDetails-AddToCart`)
+        const nameElementAgain = await page.$(`.ProductDetails-Name`)
+        productAgain['Name'] = await page.evaluate(el => el.textContentAgain, nameElementAgain)
+
+        const priceElementAgain = await page.$(`.ProductDetails-Price`)
+        productAgain['Price'] = await page.evaluate(el => el.textContentAgain, priceElementAgain)
+        await buttonAgain.click()
+        await buttonAgain.click()
+
+
+        await page.goto(main_url + `/cart`);
+        await page.waitForSelector(`.Cart`)
+
+        const params = ['Name', 'Price', 'Count']
+        for (const param of params) {
+            const cartProductElement = await browser.$(`tr[data-testid="${index}"] .Cart-${param}`);
+            const cartProductContent = await page.evaluate(el => el.textContent, cartProductElement)
+            assert.equal(product[param], cartProductContent, `продукт в корзине отображается корректно`);
+
+            const cartProductElementAgain = await browser.$(`tr[data-testid="${index + 1}"] .Cart-${param}`);
+            const cartProductContentAgain = await page.evaluate(el => el.textContent, cartProductElementAgain)
+            assert.equal(productAgain[param], cartProductContentAgain, `второй продукт в корзине отображается корректно`);
+        }
+
+        const cartProductCount = await browser.$(`tr[data-testid="${index}"] .Cart-Count`);
+        const cartProductCountContent = await page.evaluate(el => el.textContent, cartProductCount)
+        assert.equal(cartProductCountContent, '2', `количество продукта в корзине корректно`);
+
+        const cartProductTotal = await browser.$(`tr[data-testid="${index}"] .Cart-Total`);
+        const cartProductTotalContent = await page.evaluate(el => el.textContent, cartProductTotal)
+        const total = Number(product['Price'].replace("$", "")) * Number(cartProductCountContent)
+        assert.equal(cartProductTotalContent, `$${total}`, `цена продукта в корзине корректно`);
+
+        const cartProductTotalAgain = await browser.$(`tr[data-testid="${index}"] .Cart-Total`);
+        const cartProductTotalContentAgain = await page.evaluate(el => el.textContent, cartProductTotalAgain)
+        const totalAgain = Number(product['Price'].replace("$", "")) * Number(cartProductCountContent)
+        assert.equal(cartProductTotalContentAgain, `$${totalAgain}`, `цена второго продукта в корзине корректно`);
+
+
+        const cartProductOrderPrice = await browser.$(`tr[data-testid="${index}"] .Cart-OrderPrice`);
+        const cartProductOrderPriceContent = await page.evaluate(el => el.textContent, cartProductOrderPrice)
+        const orderPrice = Number(total) + Number(totalAgain)
+        assert.equal(cartProductOrderPriceContent, `$${orderPrice}`, `полная цена продуктов в корзине корректно`);
+
+        await browser.url(main_url + `/cart`);
+        const buttonClear = await browser.$(`.Cart-Clear`)
+        await buttonClear.click()
+    })
+})
+
+describe('4️⃣3️⃣ в корзине должна быть кнопка "очистить корзину", по нажатию на которую все товары должны удаляться', async () => {
+    it(`два разных товара`, async ({ browser }) => {
+        const index = 0
+        await browser.url(main_url + `/catalog/${index}`);
+        const button = await browser.$(`.ProductDetails-AddToCart`)
+        await button.click()
+
+        await browser.url(main_url + `/catalog/${index + 1}`);
+        const buttonAgain = await browser.$(`.ProductDetails-AddToCart`)
+        await buttonAgain.click()
+
+        await browser.url(main_url + `/cart`);
+        const buttonClear = await browser.$(`.Cart-Clear`)
+        await buttonClear.click()
+
+        const puppeteer = await browser.getPuppeteer();
+        const [page] = await puppeteer.pages();
+        await page.goto(main_url + `/cart`);
+        await page.waitForSelector(`.Cart`)
+
+        const col = await browser.$(`.col`);
+        const colContent = await page.evaluate(el => el.textContent, col)
+        assert.equal(colContent, `'test`, `корзина очистилась корректно`);
+
+    })
+})
+
+describe('4️⃣4️⃣ попытка купить товар', async () => {
+    it(`два разных товара`, async ({ browser }) => {
+        const index = 0
+        await browser.url(main_url + `/catalog/${index}`);
+        const button = await browser.$(`.ProductDetails-AddToCart`)
+        await button.click()
+
+        await browser.url(main_url + `/catalog/${index + 1}`);
+        const buttonAgain = await browser.$(`.ProductDetails-AddToCart`)
+        await buttonAgain.click()
+
+        await browser.url(main_url + `/cart`);
+        const buttonClear = await browser.$(`.Cart-Clear`)
+        await buttonClear.click()
+
+        const puppeteer = await browser.getPuppeteer();
+        const [page] = await puppeteer.pages();
+        await page.goto(main_url + `/cart`);
+        await page.waitForSelector(`.Cart`)
+
+        await page.waitForSelector(`.Form-Field_type_name`);
+        await page.click(`.Form-Field_type_name`);
+        await page.keyboard.type("user");
+
+        await page.waitForSelector(`.Form-Field_type_phone`);
+        await page.click(`.Form-Field_type_phone`);
+        await page.keyboard.type("9876543210");
+
+        await page.waitForSelector(`.Form-Field_type_address`);
+        await page.click(`.Form-Field_type_address`);
+        await page.keyboard.type("address");
+
+        await page.click(`Form-Submit`);
+
+        await browser.assertView("correct_cart_well_done", ".Cart-SuccessMessage", {
+            ignoreElements: [".Cart-Number"],
+        });
     })
 })
