@@ -10,7 +10,6 @@ if (process.env.BUG_ID !== undefined) {
     bug_id = process.env.BUG_ID;
 }
 
-
 describe('1️⃣1️⃣ вёрстка должна адаптироваться под ширину экрана', async () => {
     const windowSizes = [2167, 1083, 875, 722, 575];
     windowSizes.forEach((w) => adaptivePage(w));
@@ -457,6 +456,7 @@ describe('4️⃣1️⃣ в шапке рядом со ссылкой на ко�
 })
 
 
+
 describe('4️⃣2️⃣ в корзине должна отображаться таблица с добавленными в нее товарами', async () => {
     it(`два разных товара`, async ({ browser }) => {
         const index = 0
@@ -466,63 +466,60 @@ describe('4️⃣2️⃣ в корзине должна отображаться
         const productAgain = {}
 
         await page.goto(main_url + `/catalog/${index}`);
-        const button = await page.$(`.ProductDetails-AddToCart`)
+        await page.waitForSelector(`.ProductDetails-AddToCart`);
+        await page.click(`.ProductDetails-AddToCart`);
+        await page.click(`.ProductDetails-AddToCart`);
 
         const nameElement = await page.$(`.ProductDetails-Name`)
         product['Name'] = await page.evaluate(el => el.textContent, nameElement)
 
         const priceElement = await page.$(`.ProductDetails-Price`)
         product['Price'] = await page.evaluate(el => el.textContent, priceElement)
-        await button.click()
-        await button.click()
 
-        await browser.url(main_url + `/catalog/${index + 1}`);
-        const buttonAgain = await browser.$(`.ProductDetails-AddToCart`)
-        const nameElementAgain = await page.$(`.ProductDetails-Name`)
-        productAgain['Name'] = await page.evaluate(el => el.textContentAgain, nameElementAgain)
+        await page.goto(main_url + `/catalog/${index + 1}`);
+        await page.waitForSelector(`.ProductDetails-AddToCart`);
+        await page.click(`.ProductDetails-AddToCart`);
+        await page.click(`.ProductDetails-AddToCart`);
 
-        const priceElementAgain = await page.$(`.ProductDetails-Price`)
-        productAgain['Price'] = await page.evaluate(el => el.textContentAgain, priceElementAgain)
-        await buttonAgain.click()
-        await buttonAgain.click()
+        const nameElementAgain = await page.$(`.ProductDetails-Name`);
+        productAgain['Name'] = await page.evaluate(el => el.textContent, nameElementAgain)
 
+
+        const priceElementAgain = await page.$(`.ProductDetails-Price`);
+        productAgain['Price'] = await page.evaluate(el => el.textContent, priceElementAgain)
 
         await page.goto(main_url + `/cart`);
-        await page.waitForSelector(`.Cart`)
 
-        const params = ['Name', 'Price', 'Count']
-        for (const param of params) {
-            const cartProductElement = await browser.$(`tr[data-testid="${index}"] .Cart-${param}`);
-            const cartProductContent = await page.evaluate(el => el.textContent, cartProductElement)
-            assert.equal(product[param], cartProductContent, `продукт в корзине отображается корректно`);
 
-            const cartProductElementAgain = await browser.$(`tr[data-testid="${index + 1}"] .Cart-${param}`);
-            const cartProductContentAgain = await page.evaluate(el => el.textContent, cartProductElementAgain)
-            assert.equal(productAgain[param], cartProductContentAgain, `второй продукт в корзине отображается корректно`);
-        }
+        await page.waitForSelector(`.Cart-Name`);
 
-        const cartProductCount = await browser.$(`tr[data-testid="${index}"] .Cart-Count`);
+        const cartProductCount = await page.$(`tr[data-testid= "${index}"] .Cart-Count`);
         const cartProductCountContent = await page.evaluate(el => el.textContent, cartProductCount)
         assert.equal(cartProductCountContent, '2', `количество продукта в корзине корректно`);
 
-        const cartProductTotal = await browser.$(`tr[data-testid="${index}"] .Cart-Total`);
-        const cartProductTotalContent = await page.evaluate(el => el.textContent, cartProductTotal)
+        const cartProductName = await page.$(`tr[data-testid="${index}"`);
+        const cartProductNameContent = await page.evaluate(el => el.textContent, cartProductName)
         const total = Number(product['Price'].replace("$", "")) * Number(cartProductCountContent)
-        assert.equal(cartProductTotalContent, `$${total}`, `цена продукта в корзине корректно`);
 
-        const cartProductTotalAgain = await browser.$(`tr[data-testid="${index}"] .Cart-Total`);
-        const cartProductTotalContentAgain = await page.evaluate(el => el.textContent, cartProductTotalAgain)
-        const totalAgain = Number(product['Price'].replace("$", "")) * Number(cartProductCountContent)
-        assert.equal(cartProductTotalContentAgain, `$${totalAgain}`, `цена второго продукта в корзине корректно`);
+        assert.equal(cartProductNameContent, `${index + 1}${product['Name']}${product['Price']}${cartProductCountContent}$${total}`, `содержимое корзины корректно`);
 
+        const cartProductCountAgain = await page.$(`tr[data-testid= "${index + 1}"] .Cart-Count`);
+        const cartProductCountContentAgain = await page.evaluate(el => el.textContent, cartProductCountAgain)
+        assert.equal(cartProductCountContentAgain, '2', `количество продукта в корзине корректно`);
 
-        const cartProductOrderPrice = await browser.$(`tr[data-testid="${index}"] .Cart-OrderPrice`);
+        const cartProductNameAgain = await page.$(`tr[data-testid="${index + 1}"`);
+        const cartProductNameContentAgain = await page.evaluate(el => el.textContent, cartProductNameAgain)
+        const totalAgain = Number(productAgain['Price'].replace("$", "")) * Number(cartProductCountContentAgain)
+        assert.equal(cartProductNameContentAgain, `${index + 2}${productAgain['Name']}${productAgain['Price']}${cartProductCountContentAgain}$${totalAgain}`, `содержимое корзины корректно`);
+
+        const cartProductOrderPrice = await page.$(`.Cart-OrderPrice`);
         const cartProductOrderPriceContent = await page.evaluate(el => el.textContent, cartProductOrderPrice)
+
         const orderPrice = Number(total) + Number(totalAgain)
         assert.equal(cartProductOrderPriceContent, `$${orderPrice}`, `полная цена продуктов в корзине корректно`);
 
-        await browser.url(main_url + `/cart`);
-        const buttonClear = await browser.$(`.Cart-Clear`)
+        await page.goto(main_url + `/cart`);
+        const buttonClear = await page.$(`.Cart-Clear`)
         await buttonClear.click()
     })
 })
@@ -542,15 +539,11 @@ describe('4️⃣3️⃣ в корзине должна быть кнопка "�
         const buttonClear = await browser.$(`.Cart-Clear`)
         await buttonClear.click()
 
-        const puppeteer = await browser.getPuppeteer();
-        const [page] = await puppeteer.pages();
-        await page.goto(main_url + `/cart`);
-        await page.waitForSelector(`.Cart`)
 
-        const col = await browser.$(`.col`);
-        const colContent = await page.evaluate(el => el.textContent, col)
-        assert.equal(colContent, `'test`, `корзина очистилась корректно`);
-
+        await browser.assertView(`cart`, '.Application', {
+            screenshotDelay: 1000,
+            compositeImage: true,
+        });
     })
 })
 
@@ -564,10 +557,6 @@ describe('4️⃣4️⃣ попытка купить товар', async () => {
         await browser.url(main_url + `/catalog/${index + 1}`);
         const buttonAgain = await browser.$(`.ProductDetails-AddToCart`)
         await buttonAgain.click()
-
-        await browser.url(main_url + `/cart`);
-        const buttonClear = await browser.$(`.Cart-Clear`)
-        await buttonClear.click()
 
         const puppeteer = await browser.getPuppeteer();
         const [page] = await puppeteer.pages();
@@ -586,7 +575,7 @@ describe('4️⃣4️⃣ попытка купить товар', async () => {
         await page.click(`.Form-Field_type_address`);
         await page.keyboard.type("address");
 
-        await page.click(`Form-Submit`);
+        await page.click(`.Form-Submit`);
 
         await browser.assertView("correct_cart_well_done", ".Cart-SuccessMessage", {
             ignoreElements: [".Cart-Number"],
